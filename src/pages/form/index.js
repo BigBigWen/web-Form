@@ -59,23 +59,17 @@ class RegistrationForm extends React.Component {
     setTimeout(this.loadData,2000)
   }
   loadData = () => {
-    // this.form.add(
-    //   getInitialValue(defaultDriveType),
-    //   getInitialValidator(defaultDriveType)
-    // );
     this.setState({
       value: this.form.getValue()
     });
   };
   onTypeChange = (type) => {
     const currentType = this.state.value.type;
-    // this.form.clear(Object.keys(initialValue[currentType]));
     let newValue = initialValue[type];
     let newValidator = initialValidator[type];
     this.form.add(newValue, newValidator);
   }
   onChange = (name, e) => {
-    console.log(e,'eeeeeeeeeeeeeeeeeeee',isObject(e))
     const val = isObject(e)? e.target.value:e
     if (name === 'type') {
       this.onTypeChange(val);
@@ -96,9 +90,6 @@ class RegistrationForm extends React.Component {
     const Dlt = shouldRender(value.type, [Dlt645_1997, Dlt645_2007]);
     const formItemClassNames = (show) => ["c-form-item", show ? "" : "hide"];
     const formError = this.form.getValue()
-    console.log(this.form.getError(),'errrrr')
-    console.log(this.form.getValue(),'valueeeeeeeeeeeeeeeeeeeeee')
-    console.log(value,'stateeeeeeee')
 
     return (
       <div style={{width:'500px',margin:'50px'}}>
