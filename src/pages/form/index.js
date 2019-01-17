@@ -1,7 +1,7 @@
 import React from 'react'
 import {isObject}from 'lodash'
 import {Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete} from 'antd';
-import FormClass from '../../lib/form'
+import FormClass,{FormItem} from '../../components/customForm/index.js'
 import {
   DriveTypeOptions,
   BaudRateOptions,
@@ -19,7 +19,6 @@ import {
   Dlt645_1997,
   Dlt645_2007,
 }from './const'
-import FormItem from '../../components/formItem'
 import { getInitialValue, getInitialValidator, shouldRender } from './lib';
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
@@ -106,42 +105,71 @@ class RegistrationForm extends React.Component {
       <div className={["c-form", !!Object.keys(value).length ? "" : "hide"]}>
 
       </div>
-          <FormItem label="表计名称" {...(this.form.getItemValidte('name'))}> 
-            <Input value={value.name} onChange={(val)=>this.onChange('name',val)}/>
+          <FormItem label="表计名称" formKey='name' form={this.form} onChange={this.onChange} {...formLayout}> 
+            {
+              ({value,onChange})=>(
+                <Input value={value} onChange={onChange} />
+              )
+            }
           </FormItem>
-          <FormItem label="采集终端" {...(this.form.getItemValidte('deviceId'))}>
-              <Input value={value.deviceId} onChange={(val)=>this.onChange('deviceId',val)}/>
+          <FormItem label="采集终端" formKey='deviceId' form={this.form} onChange={this.onChange} {...formLayout}>
+          {
+              ({value,onChange})=>(
+                <Input value={value} onChange={onChange} />
+              )
+            }
           </FormItem>
-          <FormItem label="表计品牌" {...(this.form.getItemValidte('brand'))}>
-              <Input value={value.brand}  onChange={(val)=>this.onChange('brand',val)}/>
+          <FormItem label="表计品牌" formKey='brand' form={this.form} onChange={this.onChange} {...formLayout}>
+           {
+              ({value,onChange})=>(
+                <Input value={value} onChange={onChange} />
+              )
+            }
           </FormItem>
-          <FormItem label={'表计型号'} {...(this.form.getItemValidte('model'))}>
-              <Input value={value.model} onChange={(val)=>this.onChange('model',val)}/>
+          <FormItem label={'表计型号'} formKey='model' form={this.form} onChange={this.onChange} {...formLayout}>
+          {
+              ({value,onChange})=>(
+                <Input value={value} onChange={onChange} />
+              )
+            }
           </FormItem>
-          <FormItem label="驱动类型" {...(this.form.getItemValidte('type'))}>
-             <Select  onChange={(val)=>this.onChange('type',val)} value={value.type} style={{width:'100%'}}>
-               {
-                 DriveTypeOptions.map(a=><Option key={a.value} value={a.value}>
-                  {a.label} 
-                  </Option>)
-               }
-             </Select>
+          <FormItem label="驱动类型" formKey='type' form={this.form} onChange={(val)=>this.onChange('type',val)} {...formLayout}>
+            {
+              ({value,onChange})=>(
+                <Select   value={value} onChange={onChange} style={{width:'100%'}}>
+                {
+                  DriveTypeOptions.map(a=><Option key={a.value} value={a.value}>
+                    {a.label} 
+                    </Option>)
+                }
+              </Select>
+              )
+            }
           </FormItem>
-          <div  className={formItemClassNames(!TCP)}>
-            <FormItem label="串口地址" {...(this.form.getItemValidte('serialPort'))}>
-              <Select  onChange={(val)=>this.onChange('serialPort',val)} value={value.serialPort}  style={{width:'100%'}}>
+          <div  className={formItemClassNames(!TCP)} >
+           
+            <FormItem label="串口地址" formKey='serialPort' form={this.form} onChange={(val)=>this.onChange('serialPort',val)} {...formLayout}>
+            {
+              ({value,onChange})=>(
+                <Select   value={value}  style={{width:'100%'}}>
                 {
                   SerialPortOptions.map(a=><Option key={a.value} value={a.value}>
                     {a.label} 
                     </Option>)
                 }
               </Select>
+
+              )
+            }
             </FormItem>
           </div>
-        
       </div>
     );
   }
 }
+const formLayout = {
+  labelCol: { span: 6 },
+  wrapperCol: { span: 16 }
+};
 
 export default Form.create()(RegistrationForm);
